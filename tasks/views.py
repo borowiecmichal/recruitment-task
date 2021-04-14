@@ -1,4 +1,5 @@
 import hashlib
+from operator import itemgetter
 
 from django.shortcuts import render
 from rest_framework import status
@@ -10,9 +11,7 @@ class Task1View(APIView):
     def post(self, request):
         print(request.data['data_list'])
         response_dict = {'result': []}
-        for item in request.data['data_list']:
-            # for key, value in item.items():
-            #     print(key, value)
+        for item in sorted(request.data['data_list'], key=itemgetter('second_name', 'first_name')):
             try:
                 first_name = item['first_name']
                 second_name = item['second_name']
